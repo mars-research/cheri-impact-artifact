@@ -60,7 +60,7 @@ One can view all CVEs that are labeled with cause of polymorphism by only select
 
 Alternatively, we also provide a Python script that uses **pandas** to filter columns and return a breakdown of manifestations. This script can be used to quickly navigate the dataset.
 
-**Repo:** https://github.com/JoshAgustinT/cheri_AE
+**Repo:** https://github.com/mars-research/cheri-impact-artifact
 
 **Dependencies:** Python, pandas (Python library)
 
