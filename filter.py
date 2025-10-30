@@ -22,13 +22,15 @@ def bool_cols(df):
 
 
 choice = 0
-while(choice != 3):
+while(True):
     print("Select dataset:")
     print("1. CVEs Dataset")
     print("2. Rust vs CHERI Dataset")
     print("3. Quit")
     choice = input("Enter 1 or 2 or 3: ").strip()
 
+    if choice == "3":
+        exit(0)
     # Case 1 — All CVEs
     if choice == "1":
         df = pd.read_csv(ALL_CVE_FILE)
