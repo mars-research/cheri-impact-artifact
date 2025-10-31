@@ -1,5 +1,4 @@
 import pandas as pd
-import textwrap
 
 # File paths
 ALL_CVE_FILE = "CHERI Dataset - CVEs.csv"
@@ -21,8 +20,6 @@ def bool_cols(df):
             cols.append(c)
     return cols
 
-def wrap_label(label, width=45):
-    return textwrap.fill(label, width=width, subsequent_indent=" " * 4)
 
 choice = 0
 while(True):
@@ -60,11 +57,10 @@ while(True):
             counts = rows["Symptoms"].value_counts()
             if "Solved by CHERI?" in df.columns:
                 for symptom, count in counts.items():
-                    label = wrap_label(symptom)
                     subset = rows[rows["Symptoms"] == symptom]
                     b = to_bool(subset["Solved by CHERI?"])
                     yes, no = int(b.sum()), int(len(b) - b.sum())
-                    print(f"{label:<45} Total={count:<4} | Solved by CHERI?: Yes={yes}, No={no}")
+                    print(f"{symptom:<45} Total={count:<4} | Solved by CHERI?: Yes={yes}, No={no}")
             else:
                 print(rows["Symptoms"].value_counts().to_string())
         else:
@@ -75,11 +71,10 @@ while(True):
             counts = rows["Causes"].value_counts()
             if "Solved by CHERI?" in df.columns:
                 for cause, count in counts.items():
-                    label = wrap_label(cause)
                     subset = rows[rows["Causes"] == cause]
                     b = to_bool(subset["Solved by CHERI?"])
                     yes, no = int(b.sum()), int(len(b) - b.sum())
-                    print(f"{label:<45} Total={count:<4} | Solved by CHERI?: Yes={yes}, No={no}")
+                    print(f"{cause:<45} Total={count:<4} | Solved by CHERI?: Yes={yes}, No={no}")
             else:
                 print(rows["Causes"].value_counts().to_string())
         print()
@@ -117,7 +112,6 @@ while(True):
                 counts = rows[group_col].value_counts()
                 print(f"{group_col} and counts:")
                 for val2, count in counts.items():
-                    label = wrap_label(val2)
                     subset = rows[rows[group_col] == val2]
                     extras = []
                     for bc in bcols:
@@ -125,7 +119,7 @@ while(True):
                         yes, no = int(b.sum()), int(len(b) - b.sum())
                         extras.append(f"{bc}: Yes={yes}, No={no}")
                     extra_str = " | ".join(extras)
-                    print(f"{label:<45} Total={count:<4}" + (f" | {extra_str}" if extra_str else ""))
+                    print(f"{val2:<45} Total={count:<4}" + (f" | {extra_str}" if extra_str else ""))
             else:
                 print("Boolean totals:")
                 for bc in bcols:
@@ -139,7 +133,6 @@ while(True):
             print("\nCauses and counts:")
             counts = rows["Causes"].value_counts()
             for cause, count in counts.items():
-                label = wrap_label(cause)
                 subset = rows[rows["Causes"] == cause]
                 extras = []
                 for bc in bcols:
@@ -147,7 +140,7 @@ while(True):
                     yes, no = int(b.sum()), int(len(b) - b.sum())
                     extras.append(f"{bc}: Yes={yes}, No={no}")
                 extra_str = " | ".join(extras)
-                print(f"{label:<45} Total={count:<4}" + (f" | {extra_str}" if extra_str else ""))
+                print(f"{cause:<45} Total={count:<4}" + (f" | {extra_str}" if extra_str else ""))
 
         print()
 
