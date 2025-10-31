@@ -118,7 +118,7 @@ Language - Lifetime violation                 Total=68   | Solved by CHERI?: Yes
 
 These results correspond to data shown in the tables, in this example the Linux entries from **Table 2**.
 
-Note: “Language – Null byte termination” appears in the tables as “Language – Sentinel arrays,” and manifestations are referred to as “Symptoms” in the tables.
+Note: In the paper “Language – Null byte termination” and "Symptoms" from the dataset are referred to as “Language – Sentinel arrays” and "Manifestations", respectively.
 
 # Recreating Tables 1–5
 
@@ -178,5 +178,7 @@ Available columns:
 > 3. OS
 
 Values in 'OS':  
-> 1. Linux  
+> 1. Linux
+
+This query returns a breakdown of all manifestations and causes from the second dataset. 
 
