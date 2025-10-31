@@ -172,7 +172,10 @@ Each query returns the manifestation breakdown corresponding to that cause’s r
 To recreate **Tables 4 and 5**, query all entries in the second dataset:
 
 Select dataset:  
-> 2. Rust vs CHERI Dataset  
+> 2. Rust vs CHERI Dataset
+
+Available columns:
+> 3. OS
 
 Values in 'OS':  
 > 1. Linux  
