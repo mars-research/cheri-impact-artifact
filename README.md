@@ -1,24 +1,11 @@
 
 
-This document documents data artifact corresponding 
-to paper "Understanding the Security Impact of CHERI
-on the Operating System Kernel". 
+This document describes the data artifact corresponding to the paper “Understanding the Security Impact of CHERI on the Operating System Kernel.”
 
 The raw datasets used in our analysis are available at the following URL:
 
 https://docs.google.com/spreadsheets/d/1nLsI_KLPio3jMF1xHISSkB2t565U0d1Mz0LIf5bieMk/edit
 
-## Navigating the Dataset
-
-Final tables:
-
-- **CVE Table**: Corresponds to Table 1 in Section 5.1
-- **CHERI vs Rust Table**: Corresponds to Table 2 in Section 5.2
-
-Source datasets:
-
-- **CVEs**: The full dataset with labeled CVEs
-- **CHERI vs Rust CVEs**: The subset of CVEs for Table 2
 
 # Overall Metholodogy.
 
@@ -58,7 +45,7 @@ One can view all CVEs that are labeled with cause of polymorphism by only select
 ## Python script
 
 
-Alternatively, we also provide a Python script that uses **pandas** to filter columns and return a breakdown of manifestations. This script can be used to quickly navigate the dataset.
+Alternatively, we also provide a Python script that uses **pandas** to filter columns and return a breakdown of manifestations and causes. This script can be used to quickly navigate the dataset.
 
 **Repo:** https://github.com/mars-research/cheri-impact-artifact
 
@@ -117,23 +104,76 @@ Values in 'OS':
 2. FreeBSD
 ```
 
-Finally, choosing the value to filter on such as **1 (Linux)** produces a breakdown of manifestations:
+Finally, choosing the value to filter on such as **1 (Linux)** produces a breakdown of manifestations and causes:
 
 ```
 Symptoms and counts:
-Use after free: 96 | Solved by CHERI?: Yes=96, No=0
-OOB access: 67 | Solved by CHERI?: Yes=67, No=0
-Invalid pointer dereference: 60 | Solved by CHERI?: Yes=60, No=0
-Failure to release CPU: 24 | Solved by CHERI?: Yes=1, No=23
-Resource leak: 24 | Solved by CHERI?: Yes=0, No=24
-High level spec violation: 17 | Solved by CHERI?: Yes=0, No=17
-Uninitialized memory access: 15 | Solved by CHERI?: Yes=0, No=15
-Double free: 14 | Solved by CHERI?: Yes=0, No=14
-Explicit exception/panic: 11 | Solved by CHERI?: Yes=0, No=11
-Access control violation: 10 | Solved by CHERI?: Yes=0, No=10
+Use after free                                Total=96   | Solved by CHERI?: Yes=96, No=0
+...
+
+Causes and counts:
+Language - Lifetime violation                 Total=68   | Solved by CHERI?: Yes=38, No=30
+...
 ```
 
 These results correspond to data shown in the tables, in this example the Linux entries from **Table 2**.
 
-**Note:**  
-This script provides an alternative way to query and explore the dataset quickly. However, our main reference for creating the tables was through custom queries in Google Sheets. As a result, the script output format may differ slightly. For example, script may split totals by manifestation, whereas the tables present cumulative totals. Or in the given example, two queries would be necessary to retrieve data for Table 2 (one for each entry in OS). 
+Note: “Language – Null byte termination” appears in the tables as “Language – Sentinel arrays,” and manifestations are referred to as “Symptoms” in the tables.
+
+# Recreating Tables 1–5
+
+To recreate **Tables 1 and 2**, query each value in the **“OS”** column of the first dataset:
+
+Select dataset:  
+> 1. CVEs Dataset  
+
+Available columns:  
+> 3. OS  
+
+Values in 'OS':  
+> 1. Linux  
+> 2. FreeBSD  
+
+Each query returns its respective Linux or FreeBSD portion of the table.  
+
+---
+
+To recreate **Table 3**, query each value in the **“Causes”** column of the same dataset:
+
+Select dataset:  
+> 1. CVEs Dataset  
+
+Available columns:  
+> 5. Causes  
+
+Values in 'Causes':  
+> 1. Language -  Polymorphism  
+> 2. Language - Lifetime violation  
+> 3. Semantic - Logic error  
+> 4. Language - Improper memory initialization  
+> 5. Protocol - Missing Protocol Steps  
+> 6. Race condition - Improper usage of synchronization primitives  
+> 7. Semantic - Spec error  
+> 8. Semantic - Improper input validation  
+> 9. Race condition - TOUTOC  
+> 10. Protocol - Sleeping in atomic context  
+> 11. Language - Integer overflow  
+> 12. Semantic - Missing return value check  
+> 13. Semantic - Loop termination  
+> 14. Language - Container_of  
+> 15. Semantic - Security and permissions  
+> 16. Language - Null byte termination  
+
+Each query returns the manifestation breakdown corresponding to that cause’s row.
+
+---
+
+
+To recreate **Tables 4 and 5**, query all entries in the second dataset:
+
+Select dataset:  
+> 2. Rust vs CHERI Dataset  
+
+Values in 'OS':  
+> 1. Linux  
+
