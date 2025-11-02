@@ -20,20 +20,39 @@ def bool_cols(df):
             cols.append(c)
     return cols
 
-
-choice = 0
 while(True):
+    choice = 0
+    no_revocation = False
     print("Select dataset:")
     print("1. CVEs Dataset")
     print("2. Rust vs CHERI Dataset")
-    print("3. Quit")
-    choice = input("Enter 1 or 2 or 3: ").strip()
-
-    if choice == "3":
+    print("3. CVEs Dataset (No Revocation)")
+    print("4. Rust vs CHERI Dataset (No Revocation)")
+    print("5. Quit")
+    choice = input("Enter 1-5: ").strip()
+    if choice == "5":
         exit(0)
+    # Pre-processing for no revocation, only UAF affected. 
+    if choice == "3":
+        no_revocation = True
+        df = pd.read_csv(ALL_CVE_FILE)
+        if "Solved by CHERI?" in df.columns and "Symptoms" in df.columns:
+            df.loc[df["Symptoms"].str.lower().str.strip() == "use after free", "Solved by CHERI?"] = False
+        choice = "1"
+    # Pre-processing for no revocation, only UAF affected. 
+    if choice == "4":
+        no_revocation = True
+        df = pd.read_csv(RUST_VS_CHERI_FILE)
+        if "Solved by CHERI?" in df.columns and "Symptoms" in df.columns:
+            df.loc[df["Symptoms"].str.lower().str.strip() == "use after free", "Solved by CHERI?"] = False
+        choice = "2"
+
+
     # Case 1 — All CVEs
     if choice == "1":
-        df = pd.read_csv(ALL_CVE_FILE)
+        # Otherwise, we already loaded, when pre-processing
+        if(no_revocation == False):
+            df = pd.read_csv(ALL_CVE_FILE)
 
         print("\nAvailable columns:")
         for i, c in enumerate(df.columns, 1):
@@ -81,7 +100,9 @@ while(True):
 
     # Case 2 — Rust vs CHERI
     elif choice == "2":
-        df = pd.read_csv(RUST_VS_CHERI_FILE)
+        # Otherwise, we already loaded, when pre-processing
+        if(no_revocation == False):
+            df = pd.read_csv(RUST_VS_CHERI_FILE)
 
         print("\nAvailable columns:")
         for i, c in enumerate(df.columns, 1):
