@@ -115,14 +115,19 @@ Language - Lifetime violation                 Total=68   | Solved by CHERI?: Yes
 ...
 ```
 
-These results correspond to data shown in the tables, in this example the Linux entries from **Table 2**.
+These results correspond to data shown in the tables, in this example some Linux entries from **Table 1** and **Table 2**.
 
-Terminology clarification: In the paper “Language – Null byte termination” and "Symptoms" from the dataset are referred to as “Language – Sentinel arrays” and "Manifestations", respectively.
+**Terminology clarification:** In the paper “Language – Null byte termination” and "Symptoms" from the dataset are referred to as “Language – Sentinel arrays” and "Manifestations", respectively.
 
 # Recreating Tables 1–5
 
 
 Some tables contain paired entries denoted **X | Y**, where **X** is the value under the assumption of active capability revocation and **Y** is the value without it. For these tables, the relevant queries must be executed on both the regular and *(No Revocation)* variants of the datasets, which can be selected from the initial *Select dataset:* menu.
+
+For convenience, we also provide a small wrapper script (helper.py) that calls filter.py and prints all table data to the terminal:
+> python3 helper.py
+
+The helper script simply parses the output of the following manual queries:
 
 
 To recreate **Tables 1 and 2**, query each value in the **“OS”** column of the first dataset:
@@ -141,7 +146,7 @@ Each query returns its respective Linux or FreeBSD portion of the table.
 
 ---
 
-To recreate **Table 3**, query each value in the **“Causes”** column of the same dataset:
+To recreate **Table 4**, query each value in the **“Causes”** column of the same dataset:
 
 Select dataset:  
 > 1. CVEs Dataset  
@@ -172,7 +177,7 @@ Each query returns the manifestation breakdown corresponding to that cause’s r
 ---
 
 
-To recreate **Tables 4 and 5**, query all entries in the second dataset:
+To recreate **Tables 3 and 5**, query all entries in the second dataset:
 
 Select dataset:  
 > 2. Rust vs CHERI Dataset
